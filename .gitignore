@@ -1,0 +1,19 @@
+# Environment variables
+.env
+
+# Directus files
+/uploads
+/extensions/*/node_modules
+
+# Dependencies
+/node_modules
+
+# Logs
+*.log
+
+# OS Files
+.DS_Store
+Thumbs.db 
+
+.idea
+.vscode

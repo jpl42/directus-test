@@ -1,7 +1,7 @@
-FROM directus/directus:11.6
+FROM directus/directus:latest
 
-# The configuration will be provided via environment variables
-# so no need to copy configuration files
 
-# Default command is already set in the base image
-# CMD ["node", "dist/start.js"] 
+# Expose the default Directus port
+EXPOSE 8055
+
+# Use the default entrypoint and CMD from the base image 
