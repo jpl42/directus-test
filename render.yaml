@@ -1,0 +1,93 @@
+services:
+  # Directus web service using Docker
+  - type: web
+    name: directus
+    runtime: docker
+    repo: https://github.com/jpl42/directus-test # Update this with your actual repo
+    plan: starter # Choose appropriate plan: starter, standard, etc.
+    region: virginia # Match your Redis region
+    envVars:
+      # General
+      - key: SECRET
+        generateValue: true # Generate a secure random string
+      - key: PUBLIC_URL
+        sync: false # Will be prompted during deployment
+      
+      # Admin User
+      - key: ADMIN_EMAIL
+        sync: false # Will be prompted during deployment
+      - key: ADMIN_PASSWORD
+        sync: false # Will be prompted during deployment
+      
+      # Database (Supabase PostgreSQL)
+      - key: DB_CLIENT
+        value: pg
+      - key: DB_CONNECTION_STRING
+        sync: false # Will be prompted during deployment
+      
+      # Cache (Render Redis)
+      - key: CACHE_ENABLED
+        value: "true"
+      - key: CACHE_AUTO_PURGE
+        value: "true"
+      - key: CACHE_STORE
+        value: "redis"
+      - key: REDIS
+        fromService:
+          name: laurianne-crevier-redis # Your existing Redis service name
+          type: keyvalue
+          property: connectionString
+      
+      # File Storage (Supabase S3)
+      - key: STORAGE_LOCATIONS
+        value: "supabase"
+      - key: STORAGE_SUPABASE_DRIVER
+        value: "s3"
+      - key: STORAGE_SUPABASE_KEY
+        sync: false # Will be prompted during deployment
+      - key: STORAGE_SUPABASE_SECRET
+        sync: false # Will be prompted during deployment
+      - key: STORAGE_SUPABASE_BUCKET
+        sync: false # Will be prompted during deployment
+      - key: STORAGE_SUPABASE_REGION
+        value: "ca-central-1"
+      - key: STORAGE_SUPABASE_ENDPOINT
+        value: "https://tysmzjheiqpzqjhdwqze.supabase.co/storage/v1/s3"
+      - key: STORAGE_SUPABASE_FORCE_PATH_STYLE
+        value: "true"
+      
+      # Email (Resend)
+      - key: EMAIL_TRANSPORT
+        value: "smtp"
+      - key: EMAIL_SMTP_HOST
+        value: "smtp.resend.com"
+      - key: EMAIL_SMTP_PORT
+        value: "465"
+      - key: EMAIL_SMTP_USER
+        sync: false # Will be prompted during deployment
+      - key: EMAIL_SMTP_PASSWORD
+        sync: false # Will be prompted during deployment
+      - key: EMAIL_SMTP_SECURE
+        value: "true"
+      - key: EMAIL_FROM
+        sync: false # Will be prompted during deployment
+      
+      # Security
+      - key: CORS_ENABLED
+        value: "true"
+      - key: CORS_ORIGIN
+        sync: false # Will be prompted during deployment
+      
+      # Optional Performance Configurations
+      - key: ASSETS_CACHE_TTL
+        value: "30d"
+      - key: ASSETS_TRANSFORM_MAX_CONCURRENT
+        value: "10"
+    
+    disks:
+      - name: uploads
+        mountPath: /directus/uploads
+        sizeGB: 10
+      - name: extensions
+        mountPath: /directus/extensions
+        sizeGB: 1
