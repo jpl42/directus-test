@@ -1,9 +1,8 @@
 services:
-  # Directus web service using Docker
+  # Directus web service using pre-built Docker image
   - type: web
     name: directus
-    runtime: docker
-    repo: https://github.com/jpl42/directus-test # Update this with your actual repo
+    image: ghcr.io/jpl42/directus-test:latest # The image from GitHub Container Registry
     plan: free # Free tier
     region: virginia # Match your Redis region
     envVars:
