@@ -2,7 +2,7 @@ services:
   # Directus web service using pre-built Docker image
   - type: web
     name: directus
-    image: ghcr.io/jpl42/directus-test:latest # The image from GitHub Container Registry
+    image: ghcr.io/jpl42/directus-test:latest
     plan: free # Free tier
     region: virginia # Match your Redis region
     envVars:
