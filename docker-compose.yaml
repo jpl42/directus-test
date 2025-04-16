@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+  directus:
+    image: directus/directus:latest
+    ports:
+      - 8055:8055
+    volumes:
+      - ./uploads:/directus/uploads
+      - ./extensions:/directus/extensions
+    environment:
+      # General
+      SECRET: "${KEY_SECRET}"
+      PUBLIC_URL: "${PUBLIC_URL}"
+      
+      # Admin User
+      ADMIN_EMAIL: "${ADMIN_EMAIL}"
+      ADMIN_PASSWORD: "${ADMIN_PASSWORD}"
+      
+      # Database (Supabase PostgreSQL)
+      DB_CLIENT: "pg"
+      DB_CONNECTION_STRING: "${SUPABASE_CONNECTION_STRING}" # Use the transaction pooler URL
+      
+      # Cache (Render Redis)
+      CACHE_ENABLED: "true"
+      CACHE_AUTO_PURGE: "true"
+      CACHE_STORE: "redis"
+      REDIS: "${REDIS_URL}" # Format: redis://default:password@host:port
+      
+      # File Storage (Supabase S3)
+      STORAGE_LOCATIONS: "supabase"
+      STORAGE_SUPABASE_DRIVER: "s3"
+      STORAGE_SUPABASE_KEY: "${SUPABASE_STORAGE_KEY}"
+      STORAGE_SUPABASE_SECRET: "${SUPABASE_STORAGE_SECRET}"
+      STORAGE_SUPABASE_BUCKET: "${SUPABASE_STORAGE_BUCKET}"
+      STORAGE_SUPABASE_REGION: "ca-central-1"
+      STORAGE_SUPABASE_ENDPOINT: "https://tysmzjheiqpzqjhdwqze.supabase.co/storage/v1/s3"
+      STORAGE_SUPABASE_FORCE_PATH_STYLE: "true"
+      
+      # Email (Resend)
+      EMAIL_TRANSPORT: "smtp"
+      EMAIL_SMTP_HOST: "smtp.resend.com"
+      EMAIL_SMTP_PORT: "465"
+      EMAIL_SMTP_USER: "${RESEND_API_KEY}"
+      EMAIL_SMTP_PASSWORD: "${RESEND_API_KEY}"
+      EMAIL_SMTP_SECURE: "true"
+      EMAIL_FROM: "${EMAIL_FROM}"
+      
+      # Security
+      CORS_ENABLED: "true"
+      CORS_ORIGIN: "${ALLOWED_ORIGINS}"
+      
+      # Optional Performance Configurations
+      ASSETS_CACHE_TTL: "30d"
+      ASSETS_TRANSFORM_MAX_CONCURRENT: "10"
