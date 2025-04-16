@@ -84,10 +84,7 @@ services:
       - key: ASSETS_TRANSFORM_MAX_CONCURRENT
         value: "10"
     
-    disks:
-      - name: uploads
-        mountPath: /directus/uploads
-        sizeGB: 10
-      - name: extensions
-        mountPath: /directus/extensions
-        sizeGB: 1
+    disk: # Single disk configuration for uploads
+      name: directus-data
+      mountPath: /directus/uploads
+      sizeGB: 10
