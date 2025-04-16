@@ -1,7 +1,4 @@
-FROM directus/directus:latest
-
-# Copy extensions directory if you have any
-COPY ./extensions /directus/extensions
+FROM directus/directus:11.6
 
 # The configuration will be provided via environment variables
 # so no need to copy configuration files
